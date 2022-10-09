@@ -8,8 +8,6 @@ import Animated, {
   withTiming,
   interpolate,
 } from 'react-native-reanimated';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 
 const Ring = ({delay}) => {
   const ring = useSharedValue(0);
@@ -39,35 +37,6 @@ const Ring = ({delay}) => {
   return <Animated.View style={[styles.ring, ringStyle]} />;
 };
 
-const ResultCircle = ({result}) => {
-  const resultStyle = result ? styles.sucessCircle : styles.failCircule;
-  const initial = useSharedValue(0);
-
-  const circleStyle = useAnimatedStyle(() => {
-    return {
-      opacity: 0 + initial.value,
-      transform: [
-        {
-          scale: interpolate(initial.value, [0, 1], [0, 2]),
-        },
-      ],
-    };
-  });
-  useEffect(() => {
-    initial.value = withDelay(
-      8500,
-      withTiming(1, {
-        duration: 1000,
-      }),
-    );
-  }, [initial]);
-  return (
-    <Animated.View style={[styles.resultCircle, circleStyle, resultStyle]}>
-      <FontAwesomeIcon size={32} style={styles.resultIcon} icon={faCheck} />
-    </Animated.View>
-  );
-};
-
 export default function LoadingCircle() {
   return (
     <View style={styles.wrapper}>
@@ -75,7 +44,6 @@ export default function LoadingCircle() {
       <Ring delay={1000} />
       <Ring delay={2000} />
       <Ring delay={3000} />
-      <ResultCircle result={true} />
     </View>
   );
 }
@@ -100,23 +68,5 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     borderColor: '#561B2E',
     borderWidth: 10,
-  },
-  resultCircle: {
-    display: 'flex',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    color: '#FFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sucessCircle: {
-    backgroundColor: 'green',
-  },
-  failCircule: {
-    backgroundColor: 'red',
-  },
-  resultIcon: {
-    color: '#fff',
   },
 });

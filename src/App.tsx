@@ -73,6 +73,19 @@ export default function App() {
     return {height};
   }, [scrollY.value]);
 
+  async function submit() {
+    setLoading(true);
+    const randomResult = Math.random() % 2 === 0 ? true : false;
+
+    const result = await new Promise(resolve => {
+      setTimeout(() => {
+        resolve(randomResult);
+      }, 300);
+    });
+
+    return result;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
@@ -111,10 +124,7 @@ export default function App() {
               onChangeText={e => setAge(e)}
               keyboardType="numeric"
             />
-            <SubmitButton
-              disabled={disabledSubmit}
-              onPress={() => setLoading(true)}
-            />
+            <SubmitButton disabled={disabledSubmit} onPress={submit} />
           </Animated.ScrollView>
         </View>
       )}
