@@ -1,15 +1,5 @@
-import React, {useRef} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Dimensions,
-  TextInput,
-  Button,
-  Pressable,
-} from 'react-native';
+import React from 'react';
+import {SafeAreaView, StyleSheet, Dimensions} from 'react-native';
 
 import Animated, {
   useSharedValue,
@@ -18,13 +8,17 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 
-// You can import from local files
-import Header from './components/header';
-import {DATA} from './data';
+import Input from './components/Input';
+import SubmitButton from './components/SubmitButton';
 
 const MAX_HEIGHT = Dimensions.get('window').width;
 
 export default function App() {
+  // const lastName = useRef(null);
+  // const phoneNumber = useRef(null);
+  // const email = useRef(null);
+  // const age = useRef(null); finish these later
+
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -37,7 +31,7 @@ export default function App() {
     const fontSize = interpolate(scrollY.value, [0, MAX_HEIGHT], [35, 20], {
       extrapolateRight: 'clamp',
     });
-    const paddingTop = interpolate(scrollY.value, [0, MAX_HEIGHT], [100, 10], {
+    const paddingTop = interpolate(scrollY.value, [0, MAX_HEIGHT], [100, 25], {
       extrapolateRight: 'clamp',
     });
     return {fontSize, paddingTop};
@@ -49,7 +43,7 @@ export default function App() {
   }, [scrollY.value]);
 
   const animatedWrapperStyle = useAnimatedStyle(() => {
-    const height = interpolate(scrollY.value, [0, MAX_HEIGHT], [200, 50], {
+    const height = interpolate(scrollY.value, [0, MAX_HEIGHT], [200, 75], {
       extrapolateRight: 'clamp',
     });
     return {height};
@@ -69,54 +63,12 @@ export default function App() {
         contentContainerStyle={styles.inputWrapper}
         scrollEventThrottle={16}
         onScroll={scrollHandler}>
-        <TextInput
-          style={styles.textInput}
-          onSubmitEditing={() => {
-            this.secondTextInput.focus();
-          }}>
-          Firstname
-        </TextInput>
-        <TextInput
-          style={styles.textInput}
-          ref={input => {
-            this.secondTextInput = input;
-          }}
-          onSubmitEditing={() => {
-            this.thirdTextInput.focus();
-          }}>
-          Last Name
-        </TextInput>
-        <TextInput
-          ref={input => {
-            this.thirdTextInput = input;
-          }}
-          onSubmitEditing={() => {
-            this.forthTextInput.focus();
-          }}
-          style={styles.textInput}>
-          Phone number
-        </TextInput>
-        <TextInput
-          ref={input => {
-            this.forthTextInput = input;
-          }}
-          onSubmitEditing={() => {
-            this.fifthTextInput.focus();
-          }}
-          style={styles.textInput}>
-          email
-        </TextInput>
-        <TextInput
-          ref={input => {
-            this.fifthTextInput = input;
-          }}
-          style={styles.textInput}>
-          Age
-        </TextInput>
-
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </Pressable>
+        <Input placeholder="First Name" />
+        <Input placeholder="Last Name" />
+        <Input placeholder="Phone Number" keyboardType="phone-pad" />
+        <Input placeholder="Email" keyboardType="email-address" />
+        <Input placeholder="Age" keyboardType="numeric" />
+        <SubmitButton />
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -152,31 +104,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  textInput: {
-    backgroundColor: '#1E1A20',
-    width: '90%',
-    borderWidth: 1,
-    borderColor: '#302E32',
-    borderRadius: 10,
-    color: '#302E32',
-    fontSize: 15,
-    fontWeight: '500',
-  },
   inputWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  button: {
-    width: '90%',
-    height: 40,
-    backgroundColor: '#561B2E',
-    borderRadius: 5,
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: '#FFF',
-    textAlign: 'center',
-    fontSize: 17,
+    paddingTop: 35,
+    height: 1500, // just for testing the header animation
   },
 });
