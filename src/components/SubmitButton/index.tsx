@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {Text, StyleSheet, Pressable} from 'react-native';
 
-export default function SubmitButton(onPress) {
+export default function SubmitButton(onPress, disabled) {
   return (
-    <Pressable {...onPress} style={styles.button}>
+    <Pressable {...onPress} {...disabled} style={styles.button}>
       <Text style={styles.buttonText}>Submit</Text>
     </Pressable>
   );

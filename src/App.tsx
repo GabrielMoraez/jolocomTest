@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Dimensions, View} from 'react-native';
 
 import Animated, {
@@ -20,7 +20,16 @@ export default function App() {
   // const email = useRef(null);
   // const age = useRef(null); finish these later
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [disabledSubmit, setDisabledSubmit] = useState(true);
+
+  // inputs state
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
 
   const scrollY = useSharedValue(0);
 
@@ -29,6 +38,18 @@ export default function App() {
       scrollY.value = e.contentOffset.y;
     },
   });
+
+  useEffect(() => {
+    if (
+      firstName.length &&
+      lastName.length &&
+      phoneNumber.length &&
+      email.length &&
+      age.length
+    ) {
+      setDisabledSubmit(false);
+    }
+  }, [firstName, lastName, phoneNumber, email, age]);
 
   const animatedTitleStyle = useAnimatedStyle(() => {
     const fontSize = interpolate(scrollY.value, [0, MAX_HEIGHT], [35, 20], {
@@ -70,12 +91,30 @@ export default function App() {
             contentContainerStyle={styles.inputWrapper}
             scrollEventThrottle={16}
             onScroll={scrollHandler}>
-            <Input placeholder="First Name" />
-            <Input placeholder="Last Name" />
-            <Input placeholder="Phone Number" keyboardType="phone-pad" />
-            <Input placeholder="Email" keyboardType="email-address" />
-            <Input placeholder="Age" keyboardType="numeric" />
-            <SubmitButton onPress={() => setLoading(true)} />
+            <Input
+              placeholder="First Name"
+              onChangeText={e => setFirstName(e)}
+            />
+            <Input placeholder="Last Name" onChangeText={e => setLastName(e)} />
+            <Input
+              placeholder="Phone Number"
+              onChangeText={e => setPhoneNumber(e)}
+              keyboardType="phone-pad"
+            />
+            <Input
+              placeholder="Email"
+              onChangeText={e => setEmail(e)}
+              keyboardType="email-address"
+            />
+            <Input
+              placeholder="Age"
+              onChangeText={e => setAge(e)}
+              keyboardType="numeric"
+            />
+            <SubmitButton
+              disabled={disabledSubmit}
+              onPress={() => setLoading(true)}
+            />
           </Animated.ScrollView>
         </View>
       )}

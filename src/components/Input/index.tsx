@@ -4,6 +4,7 @@ import {StyleSheet, TextInput} from 'react-native';
 export default function Input({
   placeholder,
   keyboardType = 'default',
+  onChangeText,
   //inputRef, remember to finish the "done" key feature
 }) {
   const [borderColor, setBorderColor] = React.useState('#302E32');
@@ -11,6 +12,7 @@ export default function Input({
   return (
     <TextInput
       // ref={inputRef}
+      onChangeText={onChangeText}
       placeholderTextColor="#302E32"
       onBlur={() => setBorderColor('#302E32')}
       onFocus={() => setBorderColor('#383978')}
