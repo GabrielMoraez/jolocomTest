@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Dimensions} from 'react-native';
+import {SafeAreaView, StyleSheet, Dimensions, View} from 'react-native';
 
 import Animated, {
   useSharedValue,
@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import Input from './components/Input';
+import LoadingCircle from './components/LoadingCircle';
 import SubmitButton from './components/SubmitButton';
 
 const MAX_HEIGHT = Dimensions.get('window').width;
@@ -18,6 +19,8 @@ export default function App() {
   // const phoneNumber = useRef(null);
   // const email = useRef(null);
   // const age = useRef(null); finish these later
+
+  const [loading, setLoading] = React.useState(false);
 
   const scrollY = useSharedValue(0);
 
@@ -51,25 +54,31 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Animated.View style={[styles.header, animatedWrapperStyle]}>
-        <Animated.Text style={[styles.title, animatedTitleStyle]}>
-          Add your info
-        </Animated.Text>
-        <Animated.Text style={[styles.subtitle, animatedSubtitleStyle]}>
-          To complete your profile please fill in all necessary information
-        </Animated.Text>
-      </Animated.View>
-      <Animated.ScrollView
-        contentContainerStyle={styles.inputWrapper}
-        scrollEventThrottle={16}
-        onScroll={scrollHandler}>
-        <Input placeholder="First Name" />
-        <Input placeholder="Last Name" />
-        <Input placeholder="Phone Number" keyboardType="phone-pad" />
-        <Input placeholder="Email" keyboardType="email-address" />
-        <Input placeholder="Age" keyboardType="numeric" />
-        <SubmitButton />
-      </Animated.ScrollView>
+      {loading ? (
+        <LoadingCircle />
+      ) : (
+        <View>
+          <Animated.View style={[styles.header, animatedWrapperStyle]}>
+            <Animated.Text style={[styles.title, animatedTitleStyle]}>
+              Add your info
+            </Animated.Text>
+            <Animated.Text style={[styles.subtitle, animatedSubtitleStyle]}>
+              To complete your profile please fill in all necessary information
+            </Animated.Text>
+          </Animated.View>
+          <Animated.ScrollView
+            contentContainerStyle={styles.inputWrapper}
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}>
+            <Input placeholder="First Name" />
+            <Input placeholder="Last Name" />
+            <Input placeholder="Phone Number" keyboardType="phone-pad" />
+            <Input placeholder="Email" keyboardType="email-address" />
+            <Input placeholder="Age" keyboardType="numeric" />
+            <SubmitButton onPress={() => setLoading(true)} />
+          </Animated.ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
