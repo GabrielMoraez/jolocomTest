@@ -6,6 +6,9 @@ import {
   StyleSheet,
   Text,
   Dimensions,
+  TextInput,
+  Button,
+  Pressable,
 } from 'react-native';
 
 import Animated, {
@@ -62,14 +65,58 @@ export default function App() {
           To complete your profile please fill in all necessary information
         </Animated.Text>
       </Animated.View>
-      <Animated.ScrollView scrollEventThrottle={16} onScroll={scrollHandler}>
-        {DATA.map((book, index) => {
-          return (
-            <Text style={styles.scrollText} key={book.id}>
-              {book.title}
-            </Text>
-          );
-        })}
+      <Animated.ScrollView
+        contentContainerStyle={styles.inputWrapper}
+        scrollEventThrottle={16}
+        onScroll={scrollHandler}>
+        <TextInput
+          style={styles.textInput}
+          onSubmitEditing={() => {
+            this.secondTextInput.focus();
+          }}>
+          Firstname
+        </TextInput>
+        <TextInput
+          style={styles.textInput}
+          ref={input => {
+            this.secondTextInput = input;
+          }}
+          onSubmitEditing={() => {
+            this.thirdTextInput.focus();
+          }}>
+          Last Name
+        </TextInput>
+        <TextInput
+          ref={input => {
+            this.thirdTextInput = input;
+          }}
+          onSubmitEditing={() => {
+            this.forthTextInput.focus();
+          }}
+          style={styles.textInput}>
+          Phone number
+        </TextInput>
+        <TextInput
+          ref={input => {
+            this.forthTextInput = input;
+          }}
+          onSubmitEditing={() => {
+            this.fifthTextInput.focus();
+          }}
+          style={styles.textInput}>
+          email
+        </TextInput>
+        <TextInput
+          ref={input => {
+            this.fifthTextInput = input;
+          }}
+          style={styles.textInput}>
+          Age
+        </TextInput>
+
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </Pressable>
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -79,6 +126,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 0,
+    backgroundColor: '#000',
   },
   scrollText: {
     fontSize: 19,
@@ -97,11 +145,38 @@ const styles = StyleSheet.create({
   subtitle: {
     color: '#fff',
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  textInput: {
+    backgroundColor: '#1E1A20',
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#302E32',
+    borderRadius: 10,
+    color: '#302E32',
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  inputWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  button: {
+    width: '90%',
+    height: 40,
+    backgroundColor: '#561B2E',
+    borderRadius: 5,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#FFF',
+    textAlign: 'center',
+    fontSize: 17,
   },
 });
