@@ -1,4 +1,4 @@
-# React Native Template
+# JolocomTest
 This project is my version of the front-end technical test for Jolocom.
 
 ## Prerequisites
